@@ -38,8 +38,8 @@ export function useAnalytics() {
     const trends = rows.map((r) => monthlyAttendance(r.s));
     const monthly = MONTHS.map((m, i) => ({
       month: m,
-      attendance: Math.round(avg(trends.map((t) => t[i]))),
-      atRisk: Math.round(avg(rows.filter((r) => r.p.level === "High").map((r) => monthlyAttendance(r.s)[i]))),
+      attendance: Math.round(avg(trends.map((t) => t[i] ?? 0))),
+      atRisk: Math.round(avg(rows.filter((r) => r.p.level === "High").map((r) => monthlyAttendance(r.s)[i] ?? 0))),
     }));
     const byDept = DEPARTMENTS.map((d) => {
       const dr = rows.filter((r) => r.s.department === d);

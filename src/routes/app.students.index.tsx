@@ -56,8 +56,8 @@ function StudentsPage() {
     try {
       const text = await file.text();
       const { rows: parsed, errors } = parseStudentsCSV(text, {
-        department: me?.department ?? db.faculty[0].department,
-        facultyId: me?.id ?? db.faculty[0].id,
+        department: me?.department ?? db.faculty[0]?.department ?? "",
+        facultyId: me?.id ?? db.faculty[0]?.id ?? "",
       });
       if (!parsed.length) {
         toast.error(errors[0] ?? "No valid rows found");

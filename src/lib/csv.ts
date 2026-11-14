@@ -103,13 +103,13 @@ export function parseStudentsCSV(
   const table = parseCSV(text);
   const errors: string[] = [];
   if (table.length < 2) return { rows: [], errors: ["The file has no data rows."] };
-  const header = table[0].map((h) => ALIASES[norm(h)]);
+  const header = table[0]!.map((h) => ALIASES[norm(h)]);
   if (!header.includes("id") || !header.includes("name")) {
     return { rows: [], errors: ['Missing required columns "Student ID" and "Student Name".'] };
   }
   const rows: StudentInput[] = [];
   table.slice(1).forEach((cells, i) => {
-    const rec: Record<string, string> = {};
+    const rec: Partial<Record<keyof StudentInput, string>> = {};
     header.forEach((k, j) => {
       if (k) rec[k] = (cells[j] ?? "").trim();
     });
@@ -118,9 +118,10 @@ export function parseStudentsCSV(
       errors.push(`Row ${line}: Student ID and name are required.`);
       return;
     }
-    const pct = (k: string) => {
-      if (rec[k] === undefined || rec[k] === "") return undefined;
-      const n = Number(rec[k].replace("%", ""));
+    const pct = (k: keyof StudentInput) => {
+      const raw = rec[k];
+      if (raw === undefined || raw === "") return undefined;
+      const n = Number(raw.replace("%", ""));
       return Number.isFinite(n) && n >= 0 && n <= 100 ? n : NaN;
     };
     const vals = {
@@ -142,9 +143,9 @@ export function parseStudentsCSV(
     const known = [vals.attendance, vals.assignment, vals.internal];
     const avg = Math.round(known.reduce((a, b) => a + b, 0) / known.length);
     rows.push({
-      id: rec.id.toUpperCase(),
-      name: rec.name,
-      email: rec.email || `${rec.name.toLowerCase().replace(/[^a-z]+/g, ".")}@student.eduguard.edu`,
+      id: (rec.id ?? "").toUpperCase(),
+      name: rec.name ?? "",
+      email: rec.email || `${(rec.name ?? "").toLowerCase().replace(/[^a-z]+/g, ".")}@student.eduguard.edu`,
       department: rec.department || defaults.department,
       semester: Number(rec.semester) || 1,
       facultyId: rec.facultyId || defaults.facultyId,

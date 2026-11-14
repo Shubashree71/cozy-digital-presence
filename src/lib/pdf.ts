@@ -13,7 +13,7 @@ export async function downloadStudentReport(
   const p = predictRisk(s);
   const doc = new jsPDF({ unit: "pt", format: "a4" });
   const navy: [number, number, number] = [27, 45, 102];
-  const tone: Record<string, [number, number, number]> = {
+  const tone: Record<"High" | "Medium" | "Low", [number, number, number]> = {
     High: [214, 58, 47],
     Medium: [230, 140, 30],
     Low: [34, 150, 90],

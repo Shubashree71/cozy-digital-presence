@@ -57,11 +57,12 @@ export function StudentFormDialog({
 }: {
   open: boolean;
   onOpenChange: (o: boolean) => void;
-  student?: Student;
+  student?: Student | undefined;
 }) {
   const { db, role, userId } = useScoped();
   const myFaculty = db.faculty.find((f) => f.id === userId);
-  const [form, setForm] = useState<Form>(() => empty(myFaculty?.id ?? db.faculty[0].id, myFaculty?.department ?? DEPARTMENTS[0]));
+  const fallback = db.faculty[0]!;
+  const [form, setForm] = useState<Form>(() => empty(myFaculty?.id ?? fallback.id, myFaculty?.department ?? DEPARTMENTS[0]));
   const [errors, setErrors] = useState<Partial<Record<keyof Form, string>>>({});
   const [saving, setSaving] = useState(false);
 
@@ -71,7 +72,7 @@ export function StudentFormDialog({
     if (student) {
       setForm(Object.fromEntries(Object.entries(student).map(([k, v]) => [k, String(v)])) as Form);
     } else {
-      const f = myFaculty ?? db.faculty[0];
+      const f = myFaculty ?? fallback;
       setForm(empty(f.id, f.department));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -13,7 +13,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppAlertsRouteImport } from './routes/app.alerts'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
+import { Route as AppInterventionsRouteImport } from './routes/app.interventions'
+import { Route as AppPredictRouteImport } from './routes/app.predict'
+import { Route as AppStudentsIndexRouteImport } from './routes/app.students.index'
+import { Route as AppStudentsIdRouteImport } from './routes/app.students.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -35,9 +40,34 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAlertsRoute = AppAlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppInterventionsRoute = AppInterventionsRouteImport.update({
+  id: '/interventions',
+  path: '/interventions',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPredictRoute = AppPredictRouteImport.update({
+  id: '/predict',
+  path: '/predict',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppStudentsIndexRoute = AppStudentsIndexRouteImport.update({
+  id: '/students/',
+  path: '/students/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppStudentsIdRoute = AppStudentsIdRouteImport.update({
+  id: '/students/$id',
+  path: '/students/$id',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -45,29 +75,74 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/app/alerts': typeof AppAlertsRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/interventions': typeof AppInterventionsRoute
+  '/app/predict': typeof AppPredictRoute
   '/app/': typeof AppIndexRoute
+  '/app/students/$id': typeof AppStudentsIdRoute
+  '/app/students/': typeof AppStudentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/app/alerts': typeof AppAlertsRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/interventions': typeof AppInterventionsRoute
+  '/app/predict': typeof AppPredictRoute
   '/app': typeof AppIndexRoute
+  '/app/students/$id': typeof AppStudentsIdRoute
+  '/app/students': typeof AppStudentsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/app/alerts': typeof AppAlertsRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/interventions': typeof AppInterventionsRoute
+  '/app/predict': typeof AppPredictRoute
   '/app/': typeof AppIndexRoute
+  '/app/students/$id': typeof AppStudentsIdRoute
+  '/app/students/': typeof AppStudentsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/login' | '/app/dashboard' | '/app/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/login'
+    | '/app/alerts'
+    | '/app/dashboard'
+    | '/app/interventions'
+    | '/app/predict'
+    | '/app/'
+    | '/app/students/$id'
+    | '/app/students/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/app/dashboard' | '/app'
-  id: '__root__' | '/' | '/app' | '/login' | '/app/dashboard' | '/app/'
+  to:
+    | '/'
+    | '/login'
+    | '/app/alerts'
+    | '/app/dashboard'
+    | '/app/interventions'
+    | '/app/predict'
+    | '/app'
+    | '/app/students/$id'
+    | '/app/students'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/login'
+    | '/app/alerts'
+    | '/app/dashboard'
+    | '/app/interventions'
+    | '/app/predict'
+    | '/app/'
+    | '/app/students/$id'
+    | '/app/students/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +181,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/alerts': {
+      id: '/app/alerts'
+      path: '/alerts'
+      fullPath: '/app/alerts'
+      preLoaderRoute: typeof AppAlertsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/dashboard': {
       id: '/app/dashboard'
       path: '/dashboard'
@@ -113,17 +195,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/interventions': {
+      id: '/app/interventions'
+      path: '/interventions'
+      fullPath: '/app/interventions'
+      preLoaderRoute: typeof AppInterventionsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/predict': {
+      id: '/app/predict'
+      path: '/predict'
+      fullPath: '/app/predict'
+      preLoaderRoute: typeof AppPredictRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/students/': {
+      id: '/app/students/'
+      path: '/students'
+      fullPath: '/app/students/'
+      preLoaderRoute: typeof AppStudentsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/students/$id': {
+      id: '/app/students/$id'
+      path: '/students/$id'
+      fullPath: '/app/students/$id'
+      preLoaderRoute: typeof AppStudentsIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAlertsRoute: typeof AppAlertsRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppInterventionsRoute: typeof AppInterventionsRoute
+  AppPredictRoute: typeof AppPredictRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppStudentsIdRoute: typeof AppStudentsIdRoute
+  AppStudentsIndexRoute: typeof AppStudentsIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAlertsRoute: AppAlertsRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppInterventionsRoute: AppInterventionsRoute,
+  AppPredictRoute: AppPredictRoute,
   AppIndexRoute: AppIndexRoute,
+  AppStudentsIdRoute: AppStudentsIdRoute,
+  AppStudentsIndexRoute: AppStudentsIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

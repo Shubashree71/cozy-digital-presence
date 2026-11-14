@@ -12,7 +12,7 @@ import { useScoped } from "@/lib/access";
 import { downloadStudentReport } from "@/lib/pdf";
 import { FEATURES, predictRisk } from "@/lib/risk-model";
 
-export const Route = createFileRoute("/app/students/")({
+export const Route = createFileRoute("/app/students/$id")({
   head: ({ params }) => ({
     meta: [
       { title: `Student ${params.id} – EduGuard AI` },

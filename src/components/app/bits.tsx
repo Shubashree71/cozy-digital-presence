@@ -96,7 +96,7 @@ export function Panel({
   );
 }
 
-export function NoAccess({ message }: { message?: string }) {
+export function NoAccess({ message }: { message?: string | undefined }) {
   return (
     <div className="surface mx-auto mt-10 max-w-md p-8 text-center">
       <ShieldOff className="mx-auto size-10 text-muted-foreground" />

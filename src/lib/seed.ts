@@ -63,7 +63,7 @@ export function buildStudents(now = Date.now()): Student[] {
     ...SAMPLE_ROWS.map((r) => ({ r, source: "sample" as const })),
   ];
   return rows.map(({ r, source }, i) => {
-    const fac = FACULTY[i % FACULTY.length];
+    const fac = FACULTY[i % FACULTY.length]!;
     const [id, name, attendance, assignment, internal, quiz, previous] = r;
     return {
       id,

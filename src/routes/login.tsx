@@ -35,7 +35,7 @@ function Login() {
   const db = useDB();
   const navigate = useNavigate();
   const [role, setRole] = useState<Role>("admin");
-  const [facultyId, setFacultyId] = useState(db.faculty[0].id);
+  const [facultyId, setFacultyId] = useState(db.faculty[0]?.id ?? "");
   const [studentId, setStudentId] = useState("STU001");
   const [loading, setLoading] = useState(false);
 
